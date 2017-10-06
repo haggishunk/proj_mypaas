@@ -1,18 +1,21 @@
 # install prerequisites
-apt-get update -qq > /dev/null
-apt-get install -qq -y apt-transport-https
+sudo apt-get update -qq > /dev/null
+sudo apt-get install -qq -y apt-transport-https
 
 # install docker
-wget -nv -O - https://get.docker.com/ | sh
+sudo wget -nv -O - https://get.docker.com/ | sudo sh
 
 # install dokku
-wget -nv -O - https://packagecloud.io/gpg.key | apt-key add -
-echo "deb https://packagecloud.io/dokku/dokku/ubuntu/ trusty main" | tee /etc/apt/sources.list.d/dokku.list
-apt-get update -qq > /dev/null
-apt-get install -qq -y --allow-unauthenticated dokku
-dokku plugin:install-dependencies --core
+sudo wget -nv -O - https://packagecloud.io/gpg.key | sudo apt-key add -
+echo "deb https://packagecloud.io/dokku/dokku/ubuntu/ trusty main" | sudo tee /etc/apt/sources.list.d/dokku.list
+sudo apt-get update -qq > /dev/null
 
-echo "dokku dokku/web_config boolean false" | debconf-set-selections
-echo "dokku dokku/vhost_enable boolean true" | debconf-set-selections
-echo "dokku dokku/hostname string mypaas.me" | debconf-set-selections
-echo "dokku dokku/key_file string /root/.ssh/id_rsa.pub" | debconf-set-selections
+echo "dokku dokku/web_config boolean false" | sudo debconf-set-selections
+echo "dokku dokku/vhost_enable boolean true" | sudo debconf-set-selections
+echo "dokku dokku/hostname string mypaas.me" | sudo debconf-set-selections
+echo "dokku dokku/key_file string /root/.ssh/id_rsa.pub" | sudo debconf-set-selections
+
+sudo apt-get install -qq -y --allow-unauthenticated dokku
+sudo dokku plugin:install-dependencies --core
+
+

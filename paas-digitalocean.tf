@@ -22,7 +22,7 @@ resource "digitalocean_droplet" "dokku" {
     }
 
     provisioner "local-exec" {
-        command = "wget https://raw.githubusercontent.com/haggishunk/proj_mypaas/master/bootstrap.sh && bash bootstrap.sh"
+        command = "wget -nv -O - https://raw.githubusercontent.com/haggishunk/proj_mypaas/master/bootstrap.sh | sh"
         connection {
             type = "ssh"
             user = "root"

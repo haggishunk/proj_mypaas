@@ -11,6 +11,16 @@ resource "digitalocean_droplet" "dokku" {
     private_networking = "False"
     ssh_keys = ["${var.ssh_primo}"]
 
+    provisioner "file" {
+        source = "/home/n10/.ssh/id_rsa.pub"
+        destination = "/root/.ssh/id_rsa.pub"
+        connection {
+            type = "ssh"
+            user = "root"
+            private_key = "${file("/home/n10/.ssh/id_rsa")}"
+        }
+    }
+
     provisioner "local-exec" {
         command = "wget https://github.com/haggishunk/mypaas/bootstrap.sh && bash bootstrap.sh"
         connection {

@@ -9,6 +9,7 @@ wget -nv -O - https://get.docker.com/ | sh
 wget -nv -O - https://packagecloud.io/gpg.key | apt-key add -
 echo "deb https://packagecloud.io/dokku/dokku/ubuntu/ trusty main" | tee /etc/apt/sources.list.d/dokku.list
 apt-get update -qq > /dev/null
+<<<<<<< HEAD
 
 echo "dokku dokku/web_config boolean false" | debconf-set-selections
 echo "dokku dokku/vhost_enable boolean true" | debconf-set-selections
@@ -18,4 +19,12 @@ echo "dokku dokku/key_file string /root/.ssh/id_rsa.pub" | debconf-set-selection
 apt-get install -qq -y --allow-unauthenticated dokku
 dokku plugin:install-dependencies --core
 
+=======
+apt-get install -qq -y --allow-unauthenticated dokku
+dokku plugin:install-dependencies --core
+>>>>>>> parent of 5dbf282... added sudo since provisioner with root ssh connection does not seem to be able to run scripts with root perms
 
+echo "dokku dokku/web_config boolean false" | debconf-set-selections
+echo "dokku dokku/vhost_enable boolean true" | debconf-set-selections
+echo "dokku dokku/hostname string mypaas.me" | debconf-set-selections
+echo "dokku dokku/key_file string /root/.ssh/id_rsa.pub" | debconf-set-selections

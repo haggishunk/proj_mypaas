@@ -1,16 +1,19 @@
+# digital ocean provider data cached in env variables
 provider "digitalocean" {}
 
 resource "digitalocean_droplet" "dokku" {
     image = "debian-9-x64"
     count = "${var.instances}"
     name = "${var.prefix}-${count.index+1}"
-    region = "${var.region}"
+    region = "${var.do_region}"
     size = "${var.size}"
     backups = "False"
     ipv6 = "False"
     private_networking = "False"
     ssh_keys = ["${var.ssh_primo}"]
 
+    # This places your SSH public key on the
+    # remote machine for dokku setup
     provisioner "file" {
         source = "~/.ssh/id_rsa.pub"
         destination = "/root/.ssh/id_rsa.pub"

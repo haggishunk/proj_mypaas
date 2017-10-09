@@ -6,7 +6,7 @@ variable "prefix" {
   default = "dokku"
 }
 
-variable "region" {
+variable "do_region" {
   default = "sfo1"
 }
 
@@ -16,4 +16,16 @@ variable "size" {
 
 variable "ssh_primo" {
   default = "e6:ca:15:84:e7:71:8e:df:91:b1:1c:ae:c8:76:41:7d"
+}
+
+variable "domain" {
+  default = "pantageo.us"
+}
+
+variable "gcp_dns_zone" {
+  default = "bongo"
+}
+
+variable "gcp_region" {
+  default = "us-west1"
 }

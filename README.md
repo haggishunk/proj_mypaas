@@ -7,23 +7,39 @@ This project uses terraform to provision a virtual machine and install Dokkuas a
 You will notice several references to credentials, most of which are specific to the cloud provider being used (ie. GCP, Digitalocean).  See [terraform's documentation](https://www.terraform.io/docs/providers/index.html) for help on accessing and working with your provider of choice.
 
 ### TLDR
+
 * in `variables.tf`, edit ssh fingerprint, select region, size and number of droplets you need for the paas
-* save DO token in `~/.creds/tokain`
-* save google json credential in `~/.creds/`
+* save DigitalOcean token in `~/.creds/do_token`
+* save Google Cloud json credential in `~/.creds/gcp_credentials.json`
+* save Google Cloud project id in `~/.creds/gcp_project_id`
 * edit `paas-googlecloud.tf` for your DNS zone entries
 * edit `paas-digitalocean.tf` for your SSH key references both public fingerprint and private key
 
+### Init
+
+After cloning this repository, initialize terraform plugins like so:
+```
+terraform init
+```
+You will have to do these each time you add new providers to the `.tf` files.
+
 ### Standup PaaS
+
+This shell script exports some credentials as environment variables then runs `terraform plan` followed by `terraform apply`.
 ```
 sh standup.sh
 ```
+
 ### Sitdown PaaS
+
+This script merely runs `terrafrom destroy` to remove all traces of your deployment.
 ```
 sh sitdown.sh
 ```
 
-### more at
-[the web blog](http://blog.pantageo.us/deploying-my-very-own-paas.html)
+### More at
+
+[blog.pantageo.us](http://blog.pantageo.us/deploying-my-very-own-paas.html)
 
 ### Next steps:
 

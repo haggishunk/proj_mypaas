@@ -12,12 +12,12 @@ resource "digitalocean_droplet" "dokku" {
     ssh_keys = ["${var.ssh_primo}"]
 
     provisioner "file" {
-        source = "/home/n10/.ssh/id_rsa.pub"
+        source = "~/.ssh/id_rsa.pub"
         destination = "/root/.ssh/id_rsa.pub"
         connection {
             type = "ssh"
             user = "root"
-            private_key = "${file("/home/n10/.ssh/id_rsa")}"
+            private_key = "${file("~/.ssh/id_rsa")}"
         }
     }
 
@@ -26,7 +26,7 @@ resource "digitalocean_droplet" "dokku" {
         connection {
             type = "ssh"
             user = "root"
-            private_key = "${file("/home/n10/.ssh/id_rsa")}"
+            private_key = "${file("~/.ssh/id_rsa")}"
         }
     }
 

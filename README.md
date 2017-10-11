@@ -14,7 +14,7 @@ You will notice several references to credentials, most of which are specific to
 * save Google Cloud project id in `~/.creds/gcp_project_id`
 * edit `paas-googlecloud.tf` for your DNS zone entries
 * edit `paas-digitalocean.tf` for your SSH key references both public fingerprint and private key
-* (optional) edit `bootstrap.sh` for your domain
+* edit `standup.sh` for your domain
 
 ### Init
 
@@ -22,7 +22,7 @@ After cloning this repository, initialize terraform plugins like so:
 ```
 terraform init
 ```
-You will have to do these each time you add new providers to the `.tf` files.
+You will have to do these each time you add new providers to the `.tf` files. *(Now handled through standup script)*
 
 ### Standup PaaS
 

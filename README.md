@@ -14,6 +14,7 @@ You will notice several references to credentials, most of which are specific to
 * save Google Cloud project id in `~/.creds/gcp_project_id`
 * edit `paas-googlecloud.tf` for your DNS zone entries
 * edit `paas-digitalocean.tf` for your SSH key references both public fingerprint and private key
+* (optional) edit `bootstrap.sh` for your domain
 
 ### Init
 
@@ -45,4 +46,6 @@ sh sitdown.sh
 
   * Allow any number of machines to be deployed
   * Segment machines by role
-  * Add secondary script to push and deploy an application to Dokku host(s)
+  * Add etcd interface
+  * Add secondary script to push and deploy an application to Dokku host(s) - *DONE*
+  * Develop a better app to deploy than the sample ruby app from [Heroku](https://github.com/heroku/ruby-rails-sample.git)

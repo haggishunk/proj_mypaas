@@ -12,8 +12,9 @@ apt-get update -qq > /dev/null
 
 echo "dokku dokku/web_config boolean false" | debconf-set-selections
 echo "dokku dokku/vhost_enable boolean true" | debconf-set-selections
-echo "dokku dokku/hostname string frontend.pantageo.us" | debconf-set-selections
 echo "dokku dokku/key_file string /root/.ssh/id_rsa.pub" | debconf-set-selections
+# ***EDIT THE hostname string BELOW WITH YOUR DOMAIN NAME***
+echo "dokku dokku/hostname string mypaas.$PAAS_DOMAIN" | debconf-set-selections
 
 apt-get install -qq -y --allow-unauthenticated dokku
 dokku plugin:install-dependencies --core

@@ -24,6 +24,10 @@ variable "domain" {
   default = "pantageo.us"
 }
 
+variable "appname" {
+  default = "helloclock"
+}
+
 variable "gcp_dns_zone" {
   # change this for your GCP DNS zone
   default = "bongo"

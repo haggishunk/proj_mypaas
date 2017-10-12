@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-export PAAS_DOMAIN="pantageo.us"
-
 export DIGITALOCEAN_TOKEN="$(cat ~/.creds/do_token)"
 
 export GOOGLE_CREDENTIALS="$(cat ~/.creds/gcp_credentials.json)"

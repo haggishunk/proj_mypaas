@@ -27,10 +27,10 @@ resource "digitalocean_droplet" "dokku" {
     # Update your remote VM and install dokku
     provisioner "remote-exec" {
         inline = ["wget -nv -O - https://raw.githubusercontent.com/haggishunk/proj_mypaas/master/bootstrap.sh | bash",
-                  "dokku apps:create ${var.appname}.mypaas.${var.domain}",
+                  "dokku apps:create ${var.appname}",
                   "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
                   "dokku postgres:create rails-database",
-                  "dokku postgres:link rails-database ${var.appname}.mypaas.${var.domain}"]
+                  "dokku postgres:link rails-database ${var.appname}"]
         connection {
             type = "ssh"
             user = "root"

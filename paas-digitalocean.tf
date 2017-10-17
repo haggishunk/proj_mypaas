@@ -1,5 +1,7 @@
 # digital ocean provider data cached in env variables
-provider "digitalocean" {}
+provider "digitalocean" {
+    token = "${chomp(file("~/.creds/do_token"))}"
+}
 
 resource "digitalocean_droplet" "dokku" {
     image = "debian-9-x64"
@@ -13,7 +15,7 @@ resource "digitalocean_droplet" "dokku" {
     ssh_keys = ["${var.ssh_id}"]
 
     # Place your SSH public key on the
-    # remote machine for dokku setup
+    # remote machine to support the dokku setup
     provisioner "file" {
         source = "~/.ssh/id_rsa.pub"
         destination = "/root/.ssh/id_rsa.pub"
@@ -23,14 +25,29 @@ resource "digitalocean_droplet" "dokku" {
             private_key = "${file("~/.ssh/id_rsa")}"
         }
     }
+
+    # Stick the bootstrap.sh onto the
+    # remote machine to do the dokku setup
+    provisioner "file" {
+        source = "./bootstrap.sh"
+        destination = "/root/bootstrap.sh"
+        connection {
+            type = "ssh"
+            user = "root"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+    }
     
     # Update your remote VM and install dokku
     provisioner "remote-exec" {
-        inline = ["wget -nv -O - https://raw.githubusercontent.com/haggishunk/proj_mypaas/master/bootstrap.sh | bash",
+        inline = ["sh /root/bootstrap.sh",
                   "dokku apps:create ${var.appname}",
                   "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
                   "dokku postgres:create rails-database",
-                  "dokku postgres:link rails-database ${var.appname}"]
+                  "dokku postgres:link rails-database ${var.appname}",
+                  "dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git",
+                  "dokku config:set --no-restart ${var.appname} DOKKU_LETSENCRYPT_EMAIL=${var.email}",
+                  "dokku letsencrypt ${var.appname}"]
         connection {
             type = "ssh"
             user = "root"
@@ -38,19 +55,7 @@ resource "digitalocean_droplet" "dokku" {
         }
     }
  
-#    # Set up the app database on dokku server
-#    provisioner "remote-exec" {
-#        inline = ["dokku apps:create mypaas.${var.domain}",
-#                  "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
-#                  "dokku postgres:create rails-database",
-#                  "dokku postgres:link rails-database mypaas.${var.domain}"]
-#        connection {
-#            type = "ssh"
-#            user = "root"
-#            private_key = "${file("~/.ssh/id_rsa")}"
-#        } 
-#    }
-#
+#    *** This is currently handled via the app_pusher.sh script ***
 #    # Push app to dokku server
 #    provisioner "local-exec" {
 #         command = <<EOT

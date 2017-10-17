@@ -8,13 +8,13 @@ You will notice several references to credentials, most of which are specific to
 
 ### TLDR
 
-* in `variables.tf`, edit ssh fingerprint, select region, size and number of droplets you need for the paas
+* edit `variables.tf` for ssh fingerprint, domain, email -- select region, size and number of droplets you need for the paas
 * save DigitalOcean token in `~/.creds/do_token`
 * save Google Cloud json credential in `~/.creds/gcp_credentials.json`
 * save Google Cloud project id in `~/.creds/gcp_project_id`
 * edit `paas-googlecloud.tf` for your DNS zone entries
-* edit `paas-digitalocean.tf` for your SSH key references both public fingerprint and private key
-* edit `standup.sh` for your domain
+* edit `paas-digitalocean.tf` if you'd like to use an ssh key other than the standard `.ssh/id_rsa`
+* edit `bootstrap.sh` for your paas domain
 
 ### Init
 
@@ -26,7 +26,7 @@ You will have to do these each time you add new providers to the `.tf` files. *(
 
 ### Standup PaaS
 
-This shell script exports some credentials as environment variables then runs `terraform plan` followed by `terraform apply`.
+This shell script runs `terraform init`, `terraform plan` followed by `terraform apply`.  A bash script `app_pusher.sh` is then kicked off to push the app to the dokku host via git.
 ```
 sh standup.sh
 ```
@@ -49,3 +49,4 @@ sh sitdown.sh
   * Add etcd interface
   * Add secondary script to push and deploy an application to Dokku host(s) - *DONE*
   * Develop a better app to deploy than the sample ruby app from [Heroku](https://github.com/heroku/ruby-rails-sample.git)
+  * Add SSL support

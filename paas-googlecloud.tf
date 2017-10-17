@@ -1,5 +1,9 @@
 # GCP provider data cached in env variables
-provider "google" {}
+provider "google" {
+    credentials = "${file("~/.creds/gcp_credentials.json")}"
+    project = "${chomp(file("~/.creds/gcp_project_id"))}"
+    region = "${var.gcp_region}"
+}
 
 resource "google_dns_record_set" "mypaas" {
     name = "mypaas.${var.domain}."
@@ -20,5 +24,3 @@ resource "google_dns_record_set" "wildcard" {
 
     rrdatas = ["${digitalocean_droplet.dokku.0.ipv4_address}"]
 }
-
-

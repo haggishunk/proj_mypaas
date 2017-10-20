@@ -1,0 +1,6 @@
+# No terraform state files
+*tfstate*
+.terraform/*
+
+dokku
+ruby-rails-sample

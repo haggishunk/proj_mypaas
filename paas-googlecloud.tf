@@ -1,4 +1,3 @@
-# GCP provider data cached in env variables
 provider "google" {
     credentials = "${file("~/.creds/gcp_credentials.json")}"
     project = "${chomp(file("~/.creds/gcp_project_id"))}"

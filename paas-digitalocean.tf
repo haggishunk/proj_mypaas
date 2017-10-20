@@ -1,4 +1,3 @@
-# digital ocean provider data cached in env variables
 provider "digitalocean" {
     token = "${chomp(file("~/.creds/do_token"))}"
 }

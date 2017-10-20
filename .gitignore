@@ -1,6 +1,7 @@
 # No terraform state files
 *tfstate*
 .terraform/*
+.terraform/plugins/linux_amd64/*
 
 dokku
 ruby-rails-sample

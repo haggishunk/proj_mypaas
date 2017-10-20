@@ -22,20 +22,26 @@ After cloning this repository, initialize terraform plugins like so:
 ```
 terraform init
 ```
-You will have to do these each time you add new providers to the `.tf` files. *(Now handled through standup script)*
+You will have to do these each time you add new providers to the `.tf` files.
 
 ### Standup PaaS
 
-This shell script runs `terraform init`, `terraform plan` followed by `terraform apply`.  A bash script `app_pusher.sh` is then kicked off to push the app to the dokku host via git.
+Simply type:
 ```
-sh standup.sh
+terraform plan
+```
+to see what resources will be deployed.
+
+This command sets it all in motion:
+```
+terraform apply
 ```
 
-### Sitdown PaaS
+### Spin Down PaaS
 
 This script merely runs `terrafrom destroy` to remove all traces of your deployment.
 ```
-sh sitdown.sh
+terrafom destroy
 ```
 
 ### More at
@@ -49,4 +55,4 @@ sh sitdown.sh
   * Add etcd interface
   * Add secondary script to push and deploy an application to Dokku host(s) - *DONE*
   * Develop a better app to deploy than the sample ruby app from [Heroku](https://github.com/heroku/ruby-rails-sample.git)
-  * Add SSL support
+  * Add SSL support - *DONE*

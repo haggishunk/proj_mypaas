@@ -12,7 +12,7 @@ resource "google_dns_record_set" "mypaas" {
 
     managed_zone = "${var.gcp_dns_zone}"
 
-    rrdatas = ["${digitalocean_droplet.dokku.0.ipv4_address}"]
+    rrdatas = ["${digitalocean_droplet.mukku.0.ipv4_address}"]
 }
 
 resource "google_dns_record_set" "wildcard" {
@@ -22,5 +22,5 @@ resource "google_dns_record_set" "wildcard" {
 
     managed_zone = "${var.gcp_dns_zone}"
 
-    rrdatas = ["${digitalocean_droplet.dokku.0.ipv4_address}"]
+    rrdatas = ["${digitalocean_droplet.mukku.0.ipv4_address}"]
 }

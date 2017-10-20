@@ -5,7 +5,7 @@ variable "instances" {
 }
 
 variable "prefix" {
-  default = "dokku"
+  default = "mukku"
 }
 
 variable "do_region" {
@@ -29,7 +29,7 @@ variable "appname" {
 
 variable "gcp_dns_zone" {
   # change this to your GCP DNS zone
-  default = "bongo"
+  default = "coffee"
 }
 
 variable "gcp_region" {
@@ -41,10 +41,11 @@ variable "gcp_region" {
 
 variable "domain" {
   # change this to your domain name
-  default = "pantageo.us"
+  default = "enjoyingmy.coffee"
 }
 
 variable "email" {
   # change this to your email address
-  default = "travis@pantageo.us"
+  # unicode for angle brackets
+  default = "\u003Ctravis@pantageo.us\u003E"
 }

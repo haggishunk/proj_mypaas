@@ -3,7 +3,7 @@ provider "digitalocean" {
     token = "${chomp(file("~/.creds/do_token"))}"
 }
 
-resource "digitalocean_droplet" "dokku" {
+resource "digitalocean_droplet" "mukku" {
     image = "debian-9-x64"
     count = "${var.instances}"
     name = "${var.prefix}-${count.index+1}"
@@ -14,16 +14,19 @@ resource "digitalocean_droplet" "dokku" {
     private_networking = "False"
     ssh_keys = ["${var.ssh_id}"]
 
+
+    # use this for remote connection 
+    connection {
+        type = "ssh"
+        user = "root"
+        private_key = "${file("~/.ssh/id_rsa")}"
+    }
+
     # Place your SSH public key on the
     # remote machine to support the dokku setup
     provisioner "file" {
         source = "~/.ssh/id_rsa.pub"
         destination = "/root/.ssh/id_rsa.pub"
-        connection {
-            type = "ssh"
-            user = "root"
-            private_key = "${file("~/.ssh/id_rsa")}"
-        }
     }
 
     # Stick the bootstrap.sh onto the
@@ -31,13 +34,8 @@ resource "digitalocean_droplet" "dokku" {
     provisioner "file" {
         source = "./bootstrap.sh"
         destination = "/root/bootstrap.sh"
-        connection {
-            type = "ssh"
-            user = "root"
-            private_key = "${file("~/.ssh/id_rsa")}"
-        }
     }
-    
+
     # Update your remote VM and install dokku
     provisioner "remote-exec" {
         inline = ["sh /root/bootstrap.sh",
@@ -45,31 +43,37 @@ resource "digitalocean_droplet" "dokku" {
                   "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
                   "dokku postgres:create rails-database",
                   "dokku postgres:link rails-database ${var.appname}",
-                  "dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git",
-                  "dokku config:set --no-restart ${var.appname} DOKKU_LETSENCRYPT_EMAIL=${var.email}",
-                  "dokku letsencrypt ${var.appname}"]
-        connection {
-            type = "ssh"
-            user = "root"
-            private_key = "${file("~/.ssh/id_rsa")}"
-        }
+                  "dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git"]
     }
  
-#    *** This is currently handled via the app_pusher.sh script ***
-#    # Push app to dokku server
-#    provisioner "local-exec" {
-#         command = <<EOT
-#             git clone git@github.com:heroku/ruby-rails-sample.git; 
-#             cd ruby-rails-sample;
-#             git remote add dokku dokku@${digitalocean_droplet.dokku.0.ipv4_address}:${var.appname}.mypaas.${var.domain};
-#             git push dokku master
-#         EOT
-#    }
+}
 
+resource "null_resource" "letsencrypt" {
+
+    depends_on = ["google_dns_record_set.mypaas", "google_dns_record_set.wildcard"]
+
+    # use this for remote connection 
+    connection {
+        host = "${digitalocean_droplet.mukku.0.ipv4_address}"
+        type = "ssh"
+        user = "root"
+        private_key = "${file("~/.ssh/id_rsa")}"
+    }
+
+    # Push app to dokku server
+    provisioner "local-exec" {
+         command = "sh app_pusher.sh ${digitalocean_droplet.mukku.0.ipv4_address} ${var.appname}"
+    }
+
+    # Configure let's encrypt plugin and request ssl cert for app
+    provisioner "remote-exec" {
+        inline = ["dokku config:set --no-restart ${var.appname} DOKKU_LETSENCRYPT_EMAIL='${var.email}'",
+                  "dokku letsencrypt ${var.appname}"]
+    }
 }
 
 output "msg_hosts" {
-    value = "Your are ready to go! Your dokku host is: ${join(", ", digitalocean_droplet.dokku.*.ipv4_address)}"
+    value = "Your are ready to go! Your dokku host is: ${join(", ", digitalocean_droplet.mukku.*.ipv4_address)}"
 }
 
 output "msg_apps" {

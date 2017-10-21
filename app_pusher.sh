@@ -13,4 +13,5 @@ fi;
 
 cd ruby-rails-sample;
 git remote add dokku dokku@$1:$2;
-git push dokku master;
+
+GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push dokku master;

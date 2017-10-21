@@ -8,7 +8,7 @@ You will notice several references to credentials, most of which are specific to
 
 ### TLDR
 
-* edit `variables.tf` for ssh fingerprint, domain, email -- select region, size and number of droplets you need for the paas
+* edit `variables.tf` for ssh fingerprint, domain, email -- select region, size and number of droplets you need for the paas -- name for app to be deployed
 * save DigitalOcean token in `~/.creds/do_token`
 * save Google Cloud json credential in `~/.creds/gcp_credentials.json`
 * save Google Cloud project id in `~/.creds/gcp_project_id`
@@ -39,7 +39,7 @@ terraform apply
 
 ### Spin Down PaaS
 
-This script merely runs `terrafrom destroy` to remove all traces of your deployment.
+This command takes it all down.  No more charges to your account :)
 ```
 terrafom destroy
 ```

@@ -1,7 +1,3 @@
-provider "digitalocean" {
-    token = "${chomp(file("~/.creds/do_token"))}"
-}
-
 resource "digitalocean_droplet" "mukku" {
     image = "debian-9-x64"
     count = "${var.instances}"
@@ -47,6 +43,10 @@ resource "digitalocean_droplet" "mukku" {
  
 }
 
+# null resource used to reconnect to droplet
+# after DNS record has been written
+# (domain records should be available once
+# app push is complete)
 resource "null_resource" "letsencrypt" {
 
     depends_on = ["google_dns_record_set.mypaas", "google_dns_record_set.wildcard"]
@@ -72,9 +72,9 @@ resource "null_resource" "letsencrypt" {
 }
 
 output "msg_hosts" {
-    value = "Your are ready to go! Your dokku host is: ${join(", ", digitalocean_droplet.mukku.*.ipv4_address)}"
+    value = "Your dokku host is: ${join(", ", digitalocean_droplet.mukku.*.ipv4_address)}"
 }
 
 output "msg_apps" {
-    value = "Your first application is deployed at: ${var.appname}.mypaas.${var.domain}"
+    value = "Your first application is deployed at: https://${var.appname}.mypaas.${var.domain}"
 }

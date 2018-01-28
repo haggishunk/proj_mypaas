@@ -1,51 +1,70 @@
 # DigitalOcean vars
 
 variable "instances" {
-  default = "1"
+    type = "string"
+    description = "Number of droplets to deploy"
+    default = "1"
 }
 
 variable "prefix" {
-  default = "mukku"
+    type = "string"
+    description = "Basename of droplets"
+    default = "whateveryoulike"
 }
 
 variable "do_region" {
-  default = "sfo1"
+    type = "string"
+    description = "DigitalOcean droplet region"
+    default = "sfo1"
 }
 
 variable "size" {
-  default = "512MB"
+    type = "string"
+    description = "Droplet RAM"
+    default = "512MB"
 }
 
 variable "ssh_id" {
-  # change this to your DO ssh key
-  default = "e6:ca:15:84:e7:71:8e:df:91:b1:1c:ae:c8:76:41:7d"
+    # change this
+    type = "string"
+    description = "SSH public key ID - MD5 hash works "
+    default = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
 }
 
 variable "appname" {
-  default = "helloclock"
+    type = "string"
+    description = "Name for Dokku app"
+    default = "helloclock"
 }
 
 # GCP vars
 
 variable "gcp_dns_zone" {
-  # change this to your GCP DNS zone
-  default = "coffee"
+    # change this
+    type = "string"
+    description = "GCP DNS managed zone name"
+    default = "yourzone"
 }
 
 variable "gcp_region" {
-  default = "us-west1"
+    type = "string"
+    description = "GCP VM region selection"
+    default = "us-west1"
 }
 
 
 # Shared/misc  vars
-
 variable "domain" {
-  # change this to your domain name
-  default = "enjoyingmy.coffee"
+    # change this
+    type = "string"
+    description = "The base domain for 'mypaas' subdomain"
+    default = "domain.tld"
 }
 
 variable "email" {
-  # change this to your email address
-  # unicode for angle brackets
-  default = "\u003Ctravis@pantageo.us\u003E"
+    # change this
+    # note: unicode \u003C and \u003Efor angle brackets
+    type = "string"
+    description = "Email address for CSR to Let's Encrypt"
+    default = "\u003Cperson@domain.tld\u003E"
 }

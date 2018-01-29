@@ -1,3 +1,7 @@
+# uncomment this to create a new DNS managed zone
+# otherwise, terraform will create new records under an
+# existing "dns zone name=var.gcp_dns_zone"
+#
 # resource "google_dns_managed_zone" "mypaas" {
 #   name     = "${var.gcp_dns_zone}"
 #   dns_name = "${var.domain}."

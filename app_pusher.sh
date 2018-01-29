@@ -13,13 +13,14 @@ then
     # git remote remove dokku;
     # cd ..;
     cd $APP_BASE
+    git remote rm dokku
 else 
     echo "Downloading application: $APP_BASE"
     git clone "git@github.com:$APP_PATH"
     cd $APP_BASE
-    echo "Adding dokku git remote: dokku@$HOST_DOKKU:$APP_NAME"
-    git remote add dokku dokku@$HOST_DOKKU:$APP_NAME
 fi
+echo "Adding dokku git remote: dokku@$HOST_DOKKU:$APP_NAME"
+git remote add dokku dokku@$HOST_DOKKU:$APP_NAME
 
 
 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push dokku master;

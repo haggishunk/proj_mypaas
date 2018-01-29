@@ -21,7 +21,7 @@ variable "region" {
 variable "size" {
     type = "string"
     description = "Droplet RAM"
-    default = "512MB"
+    default = "1GB"
 }
 
 variable "ssh_id" {
@@ -42,21 +42,6 @@ variable "gitname" {
     description = "Git repo for app"
     default = "heroku/ruby-rails-sample"
 }
-# GCP vars
-
-variable "gcp_dns_zone" {
-    # change this
-    type = "string"
-    description = "GCP DNS managed zone name"
-    default = "yourzone"
-}
-
-variable "gcp_region" {
-    type = "string"
-    description = "GCP VM region selection"
-    default = "us-west1"
-}
-
 
 # Shared/misc  vars
 variable "domain" {

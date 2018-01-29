@@ -32,7 +32,7 @@ resource "digitalocean_droplet" "mypaas" {
 
   # Update your remote VM and install dokku
   provisioner "remote-exec" {
-    inline = ["sh /root/bootstrap.sh",
+    inline = ["sh /root/bootstrap.sh ${var.prefix}.${var.domain}",
       "dokku apps:create ${var.appname}",
       "dokku config:set ${var.appname} CURL_CONNECT_TIMEOUT=30 CURL_TIMEOUT=300",
       "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
@@ -48,7 +48,7 @@ resource "digitalocean_droplet" "mypaas" {
 # (domain records should be available once
 # app push is complete)
 resource "null_resource" "letsencrypt" {
-  # depends_on = ["google_dns_record_set.mypaas", "google_dns_record_set.wildcard"]
+  depends_on = ["google_dns_record_set.mypaas", "google_dns_record_set.wildcard"]
 
   # use this for remote connection 
   connection {
@@ -60,7 +60,7 @@ resource "null_resource" "letsencrypt" {
 
   # Push app to dokku server
   provisioner "local-exec" {
-    command = "sh app_pusher.sh ${digitalocean_domain.mypaas.id} ${var.appname} ${var.gitname}"
+    command = "sh app_pusher.sh ${google_dns_record_set.mypaas.name} ${var.appname} ${var.gitname}"
   }
 
   # Configure let's encrypt plugin and request ssl cert for app
@@ -72,9 +72,9 @@ resource "null_resource" "letsencrypt" {
 }
 
 output "msg_hosts" {
-  value = "Your primary dokku host is: ${digitalocean_domain.mypaas.id} (${digitalocean_droplet.mypaas.0.ipv4_address})"
+  value = "Your primary dokku host is: ${google_dns_record_set.mypaas.name} (${digitalocean_droplet.mypaas.0.ipv4_address})"
 }
 
 output "msg_apps" {
-  value = "Your first application is deployed at: https://${var.appname}.${digitalocean_domain.mypaas.id}"
+  value = "Your first application is deployed at: https://${var.appname}.${google_dns_record_set.mypaas.name}"
 }

@@ -8,16 +8,25 @@ resource "digitalocean_floating_ip" "mypaas" {
 # set up the base domain A record for your PaaS
 # defaults to first node
 # resource "digitalocean_domain" "mypaas" {
-#   name       = "${var.prefix}.${var.domain}"
+#   name       = "${var.domain}"
 #   ip_address = "${digitalocean_floating_ip.mypaas.0.ip_address}"
+# }
+
+# # add an A record to your dokku host
+# resource "digitalocean_record" "mypaas" {
+#   name   = "mypaas"
+#   type   = "A"
+#   domain = "${digitalocean_domain.mypaas.id}"
+#   value  = "${var.prefix}.${digitalocean_domain.mypaas.id}"
+#   ttl    = 600
 # }
 
 # # add a wildcard CNAME record to support appname subdomains
 # resource "digitalocean_record" "mypaas-wildcard" {
-#   domain = "${digitalocean_domain.mypaas.id}"
-#   type   = "CNAME"
 #   name   = "wildcard"
-#   value  = "*.${digitalocean_domain.mypaas.id}"
+#   type   = "CNAME"
+#   domain = "${digitalocean_domain.mypaas.id}"
+#   value  = "*.${digitalocean_record.mypaas.fqdn}"
 #   ttl    = 600
 # }
 

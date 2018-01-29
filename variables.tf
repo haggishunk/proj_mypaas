@@ -1,60 +1,67 @@
 # DigitalOcean vars
 
 variable "instances" {
-    type = "string"
-    description = "Number of droplets to deploy"
-    default = "1"
+  type        = "string"
+  description = "Number of droplets to deploy"
+  default     = "1"
 }
 
 variable "prefix" {
-    type = "string"
-    description = "Basename of droplets"
-    default = "whateveryoulike"
+  type        = "string"
+  description = "Basename of droplets"
+  default     = "whateveryoulike"
 }
 
 variable "region" {
-    type = "string"
-    description = "DigitalOcean droplet region"
-    default = "sfo2"
+  type        = "string"
+  description = "DigitalOcean droplet region"
+  default     = "sfo2"
 }
 
 variable "size" {
-    type = "string"
-    description = "Droplet RAM"
-    default = "1GB"
+  type        = "string"
+  description = "Droplet RAM"
+  default     = "1GB"
 }
 
 variable "ssh_id" {
-    # change this
-    type = "string"
-    description = "SSH public key ID - MD5 hash works "
-    default = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+  # change this
+  type        = "string"
+  description = "SSH public key ID - MD5 hash works "
+  default     = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+}
+
+variable "ssh_prikey" {
+  type        = "string"
+  description = "Path to SSH private key"
+  default     = "~/.ssh/id_rsa"
 }
 
 variable "appname" {
-    type = "string"
-    description = "Name for Dokku app"
-    default = "helloclock"
+  type        = "string"
+  description = "Name for Dokku app"
+  default     = "helloclock"
 }
 
 variable "gitname" {
-    type = "string"
-    description = "Git repo for app"
-    default = "heroku/ruby-rails-sample"
+  type        = "string"
+  description = "Git repo for app"
+  default     = "heroku/ruby-rails-sample"
 }
 
 # Shared/misc  vars
 variable "domain" {
-    # change this
-    type = "string"
-    description = "The base domain for 'mypaas' subdomain"
-    default = "domain.tld"
+  # change this
+  type        = "string"
+  description = "The base domain for 'mypaas' subdomain"
+  default     = "domain.tld"
 }
 
 variable "email" {
-    # change this
-    # note: unicode \u003C and \u003Efor angle brackets
-    type = "string"
-    description = "Email address for CSR to Let's Encrypt"
-    default = "\u003Cperson@domain.tld\u003E"
+  # change this
+  # note: unicode \u003C and \u003Efor angle brackets
+  type = "string"
+
+  description = "Email address for CSR to Let's Encrypt"
+  default     = "\u003Cperson@domain.tld\u003E"
 }

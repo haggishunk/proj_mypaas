@@ -13,13 +13,13 @@ resource "digitalocean_droplet" "mypaas" {
   connection {
     type        = "ssh"
     user        = "root"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("${var.ssh_prikey}")}"
   }
 
   # Place your SSH public key on the
   # remote machine to support the dokku setup
   provisioner "file" {
-    source      = "~/.ssh/id_rsa.pub"
+    source      = "${var.ssh_prikey}.pub"
     destination = "/root/.ssh/id_rsa.pub"
   }
 
@@ -55,7 +55,7 @@ resource "null_resource" "letsencrypt" {
     host        = "${digitalocean_droplet.mypaas.0.ipv4_address}"
     type        = "ssh"
     user        = "root"
-    private_key = "${file("~/.ssh/id_rsa")}"
+    private_key = "${file("${var.ssh_prikey}")}"
   }
 
   # Push app to dokku server

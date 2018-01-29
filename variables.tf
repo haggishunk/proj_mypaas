@@ -12,10 +12,10 @@ variable "prefix" {
     default = "whateveryoulike"
 }
 
-variable "do_region" {
+variable "region" {
     type = "string"
     description = "DigitalOcean droplet region"
-    default = "sfo1"
+    default = "sfo2"
 }
 
 variable "size" {
@@ -37,6 +37,11 @@ variable "appname" {
     default = "helloclock"
 }
 
+variable "gitname" {
+    type = "string"
+    description = "Git repo for app"
+    default = "heroku/ruby-rails-sample"
+}
 # GCP vars
 
 variable "gcp_dns_zone" {

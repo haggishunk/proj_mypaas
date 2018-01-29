@@ -1,21 +1,25 @@
 #!/usr/bin/bash
 
 echo "*** APP_PUSHER ***"
+HOST_DOKKU=$1
+APP_NAME=$2
+APP_PATH=$3
+APP_BASE=$(echo $APP_PATH | sed "s/.*\///")
 
-if [ -d $3 ];
+if [ -d $APP_BASE ]
 then
-    echo "You already have a local copy of the application: $3";
+    echo "You already have a local copy of the application: $3"
     # cd ruby-rails-sample;
     # git remote remove dokku;
     # cd ..;
-    cd $3;
+    cd $APP_BASE
 else 
-    echo "Downloading application: $3";
-    git clone "git@github.com:$3.git";
-    cd $3;
-    echo "Adding dokku git remote: dokku@$1:$2";
-    git remote add dokku dokku@$1:$2;
-fi;
+    echo "Downloading application: $APP_BASE"
+    git clone "git@github.com:$APP_PATH"
+    cd $APP_BASE
+    echo "Adding dokku git remote: dokku@$HOST_DOKKU:$APP_NAME"
+    git remote add dokku dokku@$HOST_DOKKU:$APP_NAME
+fi
 
 
 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push dokku master;

@@ -16,7 +16,7 @@ then
     git remote rm dokku
 else 
     echo "Downloading application: $APP_BASE"
-    git clone "git@github.com:$APP_PATH"
+    git clone "https://github.com/:$APP_PATH"
     cd $APP_BASE
 fi
 echo "Adding dokku git remote: dokku@$HOST_DOKKU:$APP_NAME"

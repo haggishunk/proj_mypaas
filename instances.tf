@@ -60,7 +60,7 @@ resource "null_resource" "letsencrypt" {
 
   # Push app to dokku server
   provisioner "local-exec" {
-    command = "sh app_pusher.sh ${google_dns_record_set.mypaas.name} ${var.appname} ${var.gitname}"
+    command = "sh app_pusher.sh ${var.prefix}.${var.domain} ${var.appname} ${var.gitname}"
   }
 
   # Configure let's encrypt plugin and request ssl cert for app

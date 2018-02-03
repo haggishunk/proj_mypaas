@@ -48,7 +48,10 @@ resource "digitalocean_droplet" "mypaas" {
 # (domain records should be available once
 # app push is complete)
 resource "null_resource" "letsencrypt" {
-  depends_on = ["google_dns_record_set.mypaas", "google_dns_record_set.wildcard"]
+  depends_on = [
+    "digitalocean_record.mypaas", 
+    "digitalocean_record.wildcard",
+  ]
 
   # use this for remote connection 
   connection {
@@ -72,9 +75,9 @@ resource "null_resource" "letsencrypt" {
 }
 
 output "msg_hosts" {
-  value = "Your primary dokku host is: ${google_dns_record_set.mypaas.name} (${digitalocean_droplet.mypaas.0.ipv4_address})"
+  value = "Your primary dokku host is: ${digitalocean_record.mypaas.fqdn} (${digitalocean_droplet.mypaas.0.ipv4_address})"
 }
 
 output "msg_apps" {
-  value = "Your first application is deployed at: https://${var.appname}.${google_dns_record_set.mypaas.name}"
+  value = "Your first application is deployed at: https://${var.appname}.${digitalocean_record.mypaas.fqdn}"
 }

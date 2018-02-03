@@ -32,7 +32,8 @@ resource "digitalocean_droplet" "mypaas" {
 
   # Update your remote VM and install dokku
   provisioner "remote-exec" {
-    inline = ["sh /root/bootstrap.sh ${var.prefix}.${var.domain}",
+    inline = [
+      "sh /root/bootstrap.sh ${var.prefix}.${var.domain}",
       "dokku apps:create ${var.appname}",
       "dokku config:set ${var.appname} CURL_CONNECT_TIMEOUT=30 CURL_TIMEOUT=300",
       "dokku plugin:install https://github.com/dokku/dokku-postgres.git",
@@ -68,14 +69,15 @@ resource "null_resource" "letsencrypt" {
 
   # Configure let's encrypt plugin and request ssl cert for app
   provisioner "remote-exec" {
-    inline = ["dokku config:set --no-restart ${var.appname} DOKKU_LETSENCRYPT_EMAIL=${var.email}",
+    inline = [
+      "dokku config:set --no-restart ${var.appname} DOKKU_LETSENCRYPT_EMAIL=${var.email}",
       "dokku letsencrypt ${var.appname}",
     ]
   }
 }
 
 output "msg_hosts" {
-  value = "Your primary dokku host is: ${digitalocean_record.mypaas.fqdn} (${digitalocean_droplet.mypaas.0.ipv4_address})"
+  value = "Your primary dokku host is: ${digitalocean_record.mypaas.fqdn} @ ${digitalocean_droplet.mypaas.0.ipv4_address}"
 }
 
 output "msg_apps" {

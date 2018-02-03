@@ -45,7 +45,7 @@ variable "appname" {
 
 variable "gitname" {
   type        = "string"
-  description = "Git repo for app"
+  description = "Git repo for app; ok to use full URL or {user}/{repo}"
   default     = "heroku/ruby-rails-sample"
 }
 

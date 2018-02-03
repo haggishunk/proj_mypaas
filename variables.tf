@@ -49,7 +49,6 @@ variable "gitname" {
   default     = "heroku/ruby-rails-sample"
 }
 
-# Shared/misc  vars
 variable "domain" {
   # change this
   type        = "string"
@@ -60,8 +59,9 @@ variable "domain" {
 variable "email" {
   # change this
   # note: unicode \u003C and \u003Efor angle brackets
+  # note2:  may not need angle brackets!
   type = "string"
 
   description = "Email address for CSR to Let's Encrypt"
-  default     = "\u003Cperson@domain.tld\u003E"
+  default     = "person@domain.tld"
 }

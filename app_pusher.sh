@@ -4,7 +4,7 @@ echo "*** APP_PUSHER ***"
 HOST_DOKKU=$1
 APP_NAME=$2
 APP_PATH=$3
-APP_BASE=$(echo $APP_PATH | sed "s/.*\///")
+APP_BASE=$(echo $APP_PATH | sed "s/.*\///" | sed "s/.git//")
 
 if [ -d $APP_BASE ]
 then
@@ -14,7 +14,7 @@ then
     # cd ..;
     cd $APP_BASE
     git remote rm dokku
-else 
+else
     echo "Downloading application: $APP_BASE"
     git clone "https://github.com/$APP_PATH"
     cd $APP_BASE

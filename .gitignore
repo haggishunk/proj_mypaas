@@ -6,3 +6,6 @@ dokku
 ruby-rails-sample
 *.tfvars
 *.swp
+examples/
+go_test/
+go-getting-started/

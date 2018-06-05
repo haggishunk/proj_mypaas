@@ -1,9 +1,8 @@
 # No terraform state files
 *tfstate*
 .terraform
-.terraform/plugins/linux_amd64/lock.json
-
+.terraform/
 dokku
 ruby-rails-sample
-terraform.tfvars
+*.tfvars
 *.swp

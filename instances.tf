@@ -13,7 +13,6 @@ resource "digitalocean_droplet" "mypaas" {
   connection {
     type        = "ssh"
     user        = "root"
-    private_key = "${file("${var.ssh_prikey}")}"
   }
 
   # Place your SSH public key on the
@@ -54,12 +53,15 @@ resource "null_resource" "letsencrypt" {
     "digitalocean_record.wildcard",
   ]
 
+  triggers {
+    "mypaas" = "${digitalocean_droplet.mypaas.0.id}"
+  }
+
   # use this for remote connection 
   connection {
     host        = "${digitalocean_droplet.mypaas.0.ipv4_address}"
     type        = "ssh"
     user        = "root"
-    private_key = "${file("${var.ssh_prikey}")}"
   }
 
   # Push app to dokku server
